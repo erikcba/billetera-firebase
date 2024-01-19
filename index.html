@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="./accounting-calculator-2.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="./accounting-calculator-2.png"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="styles.css" />
+
+    <title>Trackeá tus gastos</title>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#">Tu Billetera Virtual</a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target=""
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto">
+  
+            <li class="nav-item">
+              <a
+                class="nav-link logged-out"
+                data-bs-toggle="modal"
+                data-bs-target="#signinModal"
+                href="#"
+                >Sign in</a
+              >
+            </li>
+
+            <li class="nav-item">
+              <a
+                class="nav-link logged-out"
+                data-bs-toggle="modal"
+                data-bs-target="#signupModal"
+                href="#"
+                >Sign up</a
+              >
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link logged-in" href="#" id="logout" >Log out</a>
+            </li>
+
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <div class="body">
+      <div class="contenedor__principal">
+        <div class="balance__contenedor">
+          <div class="balance">
+            <p class="balance__titulo">My spent today</p>
+
+            <form class="balance__input">
+              <p>$</p>
+              <input class="balance__numero" id="gastoNumero" type="number" />
+              <button
+                onsubmit="agregarGasto(event)"
+                class="balance__boton"
+                id="btnAgregar"
+              >
+                Agregar
+              </button>
+            </form>
+          </div>
+
+          <div class="balance__imagen">
+            <img src="./images/logo.svg" alt="" />
+          </div>
+        </div>
+
+        <div class="gasto-por-dia__contenedor">
+          <div class="gastos__titulo">
+            <h2>Spending - Last 7 days</h2>
+          </div>
+
+          <div class="gastos__barras">
+            <canvas id="myChart"></canvas>
+          </div>
+
+          <div class="gastos__total">
+            <div class="gastos__total-numero">
+              <p class="total__mes">Total this month</p>
+              <span class="total__mes-plata" id="totalGasto">$ 0</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div
+      class="modal fade"
+      id="signupModal"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        
+        <div class="modal-content ">
+
+          <div class="modal-header">
+
+            <h3>SignUp</h3>
+
+            <button
+              type="button"
+              class="btn-close "
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+
+          </div>
+          <div class="modal-body ">
+            <form id="signup-form">
+              <label for="signup-email">Email:</label>
+              <input
+                type="text"
+                id="signup-email"
+                class="form-control mb-3"
+                placeholder="Email"
+                required
+              />
+
+              <label for="signup-password">Password:</label>
+              <input
+                type="password"
+                id="signup-password"
+                class="form-control mb-3"
+                placeholder="Password"
+                required
+              />
+
+              <button type="submit" class="btn btn-primary">
+                Save changes
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div
+      class="modal fade"
+      id="signinModal"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="exampleModalSignin"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h3>SignIn</h3>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <form id="login-form">
+              <label for="login-email">Email</label>
+              <input
+                type="text"
+                id="login-email"
+                class="form-control mb-3"
+                placeholder="Email"
+                required
+              />
+              <label for="login-password">Password:</label>
+              <input
+                type="password"
+                id="login-password"
+                class="form-control mb-3"
+                placeholder="Password"
+                required
+              />
+
+              <button type="submit" class="btn btn-success w-100 mb-4">
+                Login
+              </button>
+
+              <button type="button" class="btn btn-primary w-100 mb-4" id="googleLogin">
+                Log in with Google
+              </button>
+        
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+      crossorigin="anonymous"
+    ></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <script type="module" src="./main.js"></script>
+  </body>
+</html>
