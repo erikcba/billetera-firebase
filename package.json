@@ -7,7 +7,8 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "up": "nodemon app/app.js"
+    "up": "nodemon app/app.js",
+    "start": "node main.js"
   },
   "devDependencies": {
     "nodemon": "^3.0.3",
